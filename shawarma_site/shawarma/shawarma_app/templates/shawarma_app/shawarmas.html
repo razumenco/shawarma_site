@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Шаурма</title>
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'shawarma_app/shawarma_icon.svg' %}" type="image/x-icon">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <style>
+  .fakeimg {
+      height: 200px;
+      background: #aaa;
+  }
+  </style>
+</head>
+<body>
+
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <h1>Шаурма</h1>
+  <p>Выберите заведение в г. Владимире.</p>
+</div>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-blue">
+        {% load static %}
+      <img src="{% static 'shawarma_app/shawarma_icon.svg' %}" width="24px" height="48px" style="margin-right: 24px;">
+      <a class="navbar-brand" style="color:white;">Шаурма</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="">Заведения</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about' %}">О нас</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+  <div class="container py-5">
+    <div class="row text-center text-black mb-5">
+        <div class="col-lg-7 mx-auto">
+            <h1 class="display-4">Список заведений</h1>
+        </div>
+    </div>
+    {% for shawarma in shawarmas %}
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <ul class="list-group shadow">
+                <li class="list-group-item">
+                    <!-- Custom content-->
+                    <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+                        <div class="media-body order-2 order-lg-1">
+                            <a href="{% url 'shawarma_detail' shawarma.id %}"><h5 class="mt-0 font-weight-bold mb-2">{{ shawarma.name }}</h5></a>
+                            <p class="font-italic text-muted mb-0 small">{{ shawarma.description }}</p>
+                            {% if shawarma.working_status == 'Круглосуточно' or shawarma.start_time == shawarma.stop_time %}
+                            <p class="font-italic text-muted mb-0">График работы: {{ shawarma.working_status }}</p>
+                            {% else %}
+                            <p class="font-italic text-muted mb-0">График работы: {{ shawarma.start_time }}-{{ shawarma.stop_time }}</p>
+                            {% endif %}
+                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                <h6 class="font-weight-bold my-2">Цена за стандартную шаурму - {{ shawarma.standart_price }}</h6>
+                                <ul class="list-inline small">
+                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                </ul>
+                            </div>
+                            {% load static %}
+                        </div><img src="{% static 'shawarma_app/shawarma' %}{{shawarma.id}}.jfif" alt="Изображение не найдено" width="200" class="ml-lg-5 order-1 order-lg-2">
+                    </div> <!-- End -->
+                </li> <!-- End -->
+            </ul>
+        </div>
+    </div>
+      {% endfor %}
+</div>
+</div>
+
+<div class="jumbotron text-center" style="margin-bottom:0">
+    <span><img src="{% static 'shawarma_app/shawarma_icon.svg' %}" width="24px" height="48px"><p>©2022 Шаурма.</p></span>
+</div>
+
+</body>
+</html>
+
